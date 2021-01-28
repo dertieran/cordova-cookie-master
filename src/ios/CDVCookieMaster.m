@@ -49,12 +49,17 @@
     NSString* urlString = [command.arguments objectAtIndex:0];
     NSString* cookieName = [command.arguments objectAtIndex:1];
     NSString* cookieValue = [command.arguments objectAtIndex:2];
+    NSObject* cookieOptions = [command.arguments objectAtIndex:3];
 
     NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
     [cookieProperties setObject:cookieName forKey:NSHTTPCookieName];
     [cookieProperties setObject:cookieValue forKey:NSHTTPCookieValue];
     [cookieProperties setObject:urlString forKey:NSHTTPCookieOriginURL];
     [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+    NSString* domain = [cookieOptions valueForKey:@"domain"];
+    if (domain != nil) {
+        [cookieProperties setObject:domain forKey:NSHTTPCookieDomain];
+    }
 
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
 

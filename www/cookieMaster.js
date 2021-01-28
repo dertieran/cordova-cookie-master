@@ -7,11 +7,17 @@ var cookieMaster = {
                     [url, cookieName]
         );
     },
-    setCookieValue: function (url, cookieName, cookieValue, successCallback, errorCallback) {
+    setCookieValue: function (url, cookieName, cookieValue, cookieOptions, successCallback, errorCallback) {
+        if (typeof cookieOptions === 'function') {
+            errorCallback = successCallback;
+            successCallback = cookieOptions;
+            cookieOptions = {};
+        }
+        
         cordova.exec(successCallback,
                     errorCallback,
                     'CookieMaster', 'setCookieValue',
-                    [url, cookieName, cookieValue]
+                    [url, cookieName, cookieValue, cookieOptions || {}]
         );
     },
     clearCookies: function(successCallback, errorCallback) {
